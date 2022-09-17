@@ -1,0 +1,28 @@
+import:
+    org.bukkit.Bukkit
+on load:
+    Bukkit.getConsoleSender().sendMessage("[PingCore] Skript dökümanları oluşturuluyor... (%script%)")
+    load yaml "plugins/PingCore/plugin.yml" as "plugin"
+    if yaml "plugin" is empty:
+        set yaml value "Main.Name" from "plugin" to "PingCore.sk"
+        set yaml value "Main.Author" from "plugin" to "Team Levionas"
+        set yaml value "Main.Version" from "plugin" to "1.0-SNAPSHOT"
+    load yaml "plugins/PingCore/config.yml" as "config"
+    if yaml "config" is empty:
+        set yaml value "Prefix" from "config" to "&8[&aPingCore&8]"
+        set yaml value "Messages.playerPing" from "config" to "&eMevcut internet hızın: &a{ping}ms"
+        set yaml value "Messages.otherPlayerPing" from "config" to "&b{player} &eadlı oyuncunun internet hızı: &a{ping}ms"
+        set yaml value "Messages.playerIsntOnline" from "config" to "&e{player} &cadlı oyuncu oyunda değil."
+        set yaml value "Messages.notEnoughPerm" from "config" to "&cBunun için yetkin yok."
+        set yaml value "Messages.skriptReload" from "config" to "&aSkript dosyaları ve ayarları başarıyla yenilendi."
+        save yaml "config"
+    Bukkit.getConsoleSender().sendMessage("[PingCore] Skript dökümanları başarıyla oluşturuldu! (%script%)")
+function PingCore_getAPI(t: text) :: objects:
+    if {_t} = "prefix":
+        return yaml value "Prefix" from "config"
+    else if {_t} = "notEnoughPerm":
+        return yaml value "Messages.notEnoughPerm" from "config"
+    else if {_t} = "skriptReload":
+        return yaml value "Messages.skriptReload" from "config"
+    else:
+        Bukkit.getConsoleSender().sendMessage("[PingCore] ERROR: Unknown function value. (%script%)")

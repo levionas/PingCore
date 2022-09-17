@@ -1,0 +1,40 @@
+command ping:reload:
+    aliases: pingcore:reload
+    trigger:
+        set {_p} to "%PingCore_getAPI("prefix")%"
+        if player has permission "pingcore.reload":
+            PingCore_skriptReload()
+            set {_t::*} to "%PingCore_getAPI("skriptReload")%"
+            send formatted "%{_p}% %{_t::*}%" to player
+        else:
+            set {_t::*} to "%PingCore_getAPI("notEnoughPerm")%"
+            send formatted "%{_p}% %{_t::*}%" to player
+command ping [<text>]:
+    aliases: pingcore
+    trigger:
+        set {_p} to "%PingCore_getAPI("prefix")%"
+        if arg-1 != set:
+            set {_t::*} to "%PingCore_getAPI("playerPing")%"
+            replace "{ping}" in {_t::*} with "%player's ping%"
+            send formatted "%{_p}% %{_t::*}%" to player
+        if arg-1 = "yardım" or "yardim":
+            send "          &e&m-----&r &6&lPING CORE &e&m-----"
+            send ""
+            send " &6/ping &f- &eShows your ping."
+            send " &6/ping <player> &f- &eShows other player's ping."
+            if player has permission "pingcore.help":
+                send " &6/pingcore:reload &f- &eReload the skript."
+            send ""
+            send "          &e&m-----&r &6&lPING CORE &e&m-----"
+        else if arg-1 is set:
+            set {_b} to arg-1 parsed as an offline player
+            if {_b} != online:
+                set {_t::*} to "%PingCore_getAPI("playerIsntOnline")%"
+                replace "{player}" in {_t::*} with "%{_b}%"
+                send formatted "%{_p}% %{_t::*}%" to player
+            else:
+                set {_t::*} to "%PingCore_getAPI("otherPlayerPing")%"
+                replace "{ping}" in {_t::*} with "%{_b}'s ping%"
+                replace "{player}" in {_t::*} with "%{_b}%"
+                send formatted "%{_p}% %{_t::*}%" to player
+

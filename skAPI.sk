@@ -1,0 +1,3 @@
+on placeholderapi placeholder request for the prefix "pingcore":
+    if the identifier = "player":
+        set the result to "%player's ping%"
